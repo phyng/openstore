@@ -21,7 +21,8 @@ urlpatterns = patterns('',
 
     # Proxy
     url(r'^proxy/$', views.proxy, name='proxy'),
-    url(r'^search/$')
+    # Search
+    url(r'^search/$', views.search, name='search'),
 
 )
 

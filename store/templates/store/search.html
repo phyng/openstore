@@ -1,0 +1,43 @@
+{% extends "store/base.html" %}
+{% load staticfiles %}
+
+{% block title %} <title>Open Store - Search</title> {% endblock %}
+{% block container %}
+
+
+
+
+<ul class="search-result media-list">
+
+
+{% if error %}
+<p>请输入应用名称搜索：</p>
+{% endif %}
+{% if query %}
+<p>关键字<strong>"{{ query }}"</strong>
+    一共有<strong>{{ apps|length }}</strong>个结果：</p>
+{% endif %}
+<form action="/store/search/" method="get">
+    <input type="text" name="q">
+    <input type="submit" value="搜索">
+</form>
+
+{% if apps %}
+{% for app in apps %}
+<li class="media">
+<a class="pull-left" href="{% url 'store:detail' app.appid %}">
+  <img class="media-object" src="{{ app.icon }}/w100" alt="Tpic">
+</a>
+<div class="media-body">
+  <h4 class="media-heading"><a href="{% url 'store:detail' app.appid %}">{{ app.name }}</a></h4>
+    <p>评分：{{ app.get_rating_value }}</p>
+    <p>大小：{{ app.fileSize }}</p>
+    <p>系统：{{ app.operatingSystems }}</p>
+</div>
+</li>
+{% endfor %}
+{% endif %}
+
+</ul>
+
+{% endblock %}

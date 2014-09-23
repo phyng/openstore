@@ -35,11 +35,18 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/store">首页</a>
                     </li>
+                    <li><a href="/store/search">搜索</a>
+                    </li>
                     <li><a href="/store/about">关于</a>
                     </li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
 
+                <ul class="nav navbar-nav navbar-right">
+<form class="navbar-form navbar-left" role="search" action="/store/search/" method="get">
+        <div class="form-group form-group-sm">
+          <input type="text" class="form-control" placeholder="搜索" name="q">
+        </div>
+      </form>
                     {% if user.is_authenticated %}
                     <li><a href="/store/accounts/profile/">{{ user.username }}</a></li>
                     <li><a href="/store/accounts/logout">退出</a></li>

@@ -5,17 +5,16 @@ from django.template import Context, loader, RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
-from django.conf import settings
 
+from django.conf import settings
 from store.models import App, Comments
 
+# for img proxy
 from zlib import crc32
 from PIL import Image
 from StringIO import StringIO
 import pathlib
 import re
-
-# for img proxy
 import requests
 import redis
 
@@ -34,27 +33,23 @@ def index(request):
     applist_topdownload = App.objects.order_by('ratingCount').reverse()[:20]
 
     # applist_new
-    new_applist_new = []
     for app in applist_new:
         app.icon = proxy_img(app.icon)
-        new_applist_new.append(app)
+
     # applist_top
-    new_applist_top = []
     for app in applist_top:
         app.icon = proxy_img(app.icon)
-        new_applist_top.append(app)
+
     # applist_topdownload
-    new_applist_topdownload = []
     for app in applist_topdownload:
         app.icon = proxy_img(app.icon)
-        new_applist_topdownload.append(app)
 
     # render
     template = loader.get_template('store/index.html')
     context = Context({
-        'applist_new': new_applist_new,
-        'applist_top': new_applist_top,
-        'applist_topdownload': new_applist_topdownload,
+        'applist_new': applist_new,
+        'applist_top': applist_top,
+        'applist_topdownload': applist_topdownload,
         'user': request.user,
 
     })
@@ -75,7 +70,6 @@ def detail(request, appid):
     # Add comments
     if request.method == "POST":
         if request.user.is_authenticated():
-
             comments = request.POST['comments']
             c = Comments(appid=int(appid),
                          date=timezone.now(),
@@ -150,6 +144,13 @@ def proxy(request):
         url = request.GET['url']
         if not re.match(r'^https://\w\w\d.ggpht.com/', url):
             raise Http404
+
+        for style in settings.QINIU_STYLE:
+            if re.findall(style + '$', url):
+                break
+            else:
+                style = ''
+
         url = url.replace('/w100', '').replace('/w250', '')
 
         filename = str(hex(crc32(url) & 0xffffffff))[2:] + ".png"
@@ -173,15 +174,28 @@ def proxy(request):
             ret, err = qiniu.io.put(uptoken, key, bitdata, extra)
             if not err:
                 reds.set(filename, 0)
-                return HttpResponseRedirect(settings.QINIU_URL + filename)
+                return HttpResponseRedirect(settings.QINIU_URL + filename + style)
             else:
                 return Http404  # redirect
         else:
-            return HttpResponseRedirect(settings.QINIU_URL + filename)
+            return HttpResponseRedirect(settings.QINIU_URL + filename + style)
         # return HttpResponse(bitdata, content_type="image/png")
 
     else:
         return Http404
+
+def search(request):
+
+    if 'q' in request.GET and request.GET['q']:
+        q = request.GET['q']
+        apps = App.objects.filter(name__icontains=q) # TD
+
+        for app in apps:
+            app.icon = proxy_img(app.icon)
+        return render_to_response('store/search.html', {'apps': apps, 'query':q})
+    else:
+        return render_to_response('store/search.html', {'error':True})
+
 
 
 def proxy_img(url):
