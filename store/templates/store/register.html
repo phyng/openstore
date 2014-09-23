@@ -1,0 +1,13 @@
+{% extends "store/base.html" %}
+
+
+{% block container %}
+
+<h1>创建账户</h1>
+<form action="" method="post" class="form-horizontal" role="form">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="提交" class="btn btn-default">
+</form>
+
+{% endblock container %}

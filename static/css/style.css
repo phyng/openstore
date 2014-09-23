@@ -1,0 +1,94 @@
+body {
+  padding-top: 70px;
+}
+
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 0px;
+}
+
+.detail-icon img{
+  padding-top:20px;
+  margin:10px;
+
+
+}
+
+.detail-icon {
+  padding: 30px;
+}
+
+.list-group-item {
+  border:0px;
+}
+
+.id-app-orig-desc {
+  font-size:16px;
+}
+
+.details-section {
+  font-size:16px;
+}
+
+.p2 {
+  font-size: 14px;
+  line-height: 0.9;
+  padding:0px;
+  margin:0px;
+}
+.c1 {
+  padding:0px;
+}
+
+.c4 {
+  padding:0px;
+}
+
+.caption {
+height:200px;
+
+}
+
+.thumbnail {
+  border: 0px;
+}
+
+
+.thumbnail img{
+  padding:20px;
+}
+
+.index-icon img{
+    width: 96px;
+    height: 96px;
+}
+
+.form-horizontal {
+  padding:50px;
+}
+
+.form-horizontal label{
+  width:80px
+}
+
+.form-horizontal .helptext{
+  color:#888;
+  padding:10px;
+
+}
+
+
+.form-inline {
+  padding-top:20px;
+}
+
+.media-list {
+  margin: 10px;
+  padding-top: 10px;
+}
+
+.media-body p{
+  margin: 0px;
+
+}

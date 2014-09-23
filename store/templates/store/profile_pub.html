@@ -1,0 +1,28 @@
+{% extends "store/base.html" %}
+{% load staticfiles %}
+
+{% block title %} <title>Open Store - {{ user.username }}</title> {% endblock %}
+{% block container %}
+
+
+<ul class="media-list">
+
+  {% if comments %}
+  {% for c in comments %}
+  <li class="media">
+    <a class="pull-left" href="#">
+      <img class="media-object" src="https://dn-play.qbox.me/s_64.png" alt="Tpic">
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading">{{ c.username }}</h4>
+
+      <h5>{{ c.comments }}<small> - {{ c.date|date:"Y-n-d H:i" }}</small></h5>
+
+    </div>
+  </li>
+  {% endfor %}
+  {% endif %}
+
+</ul>
+
+{% endblock %}

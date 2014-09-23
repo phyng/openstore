@@ -1,0 +1,43 @@
+{% extends "store/base.html" %}
+{% load staticfiles %}
+
+{% block title %} <title>Open Store - {{ user.username }}</title> {% endblock %}
+{% block container %}
+
+
+<div class="row">
+  <div class="col-md-6">
+<div class="jumbotron">
+  <h1>Hello, {{ user.username }}</h1>
+  <p>上次登录：{{ user.last_login|date:"Y-n-d H:i" }}</p>
+  <p>账号创建：{{ user.date_joined|date:"Y-n-d H:i" }}</p>
+  <p><a class="btn btn-primary btn-lg" role="button" href="/store">去首页</a></p>
+</div>
+
+  </div>
+  <div class="col-md-6">
+
+<ul class="media-list">
+
+  {% if comments %}
+  {% for c in comments %}
+  <li class="media">
+    <a class="pull-left" href="#">
+      <img class="media-object" src="https://dn-play.qbox.me/s_64.png" alt="Tpic">
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading">{{ c.username }}</h4>
+
+      <h5>{{ c.comments }}<small> - {{ c.date|date:"Y-n-d H:i" }}</small></h5>
+
+    </div>
+  </li>
+  {% endfor %}
+  {% endif %}
+
+</ul>
+  </div>
+</div>
+
+
+{% endblock %}

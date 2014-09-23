@@ -1,0 +1,67 @@
+{% extends "store/base.html" %}
+{% block title %} <title>Open Store</title> {% endblock %}
+{% block container %}
+
+
+<div class="row">
+
+<div class="index-left col-md-4">
+<h3>最新应用</h3>
+{% for app in applist_new %}
+<div class="media">
+  <a class="index-icon pull-left" href="{% url 'store:detail' app.appid %}">
+    <img class=" media-object" src="{{ app.icon }}/w100" alt="...">
+  </a>
+  <div class="media-body">
+    <h4 class="media-heading">{{ app.name }}</h4>
+    <p>评分：{{ app.get_rating_value }}</p>
+    <p>大小：{{ app.fileSize }}</p>
+    <p>系统：{{ app.operatingSystems }}</p>
+  </div>
+</div>
+{% endfor %}
+</div>
+
+<div class="index-right col-md-4">
+<h3>评分最高</h3>
+{% for app in applist_top %}
+<div class="media">
+  <a class="index-icon pull-left" href="{% url 'store:detail' app.appid %}">
+    <img class=" media-object" src="{{ app.icon }}/w100" alt="...">
+  </a>
+  <div class="media-body">
+    <h4 class="media-heading">{{ app.name }}</h4>
+    <p>评分：{{ app.get_rating_value }}</p>
+    <p>大小：{{ app.fileSize }}</p>
+    <p>系统：{{ app.operatingSystems }}</p>
+  </div>
+</div>
+{% endfor %}
+</div>
+
+<div class="index-right col-md-4">
+<h3>下载最多</h3>
+{% for app in applist_topdownload %}
+<div class="media">
+  <a class="index-icon pull-left" href="{% url 'store:detail' app.appid %}">
+    <img class=" media-object" src="{{ app.icon }}/w100" alt="...">
+  </a>
+  <div class="media-body">
+    <h4 class="media-heading">{{ app.name }}</h4>
+    <p>评分：{{ app.get_rating_value }}</p>
+    <p>大小：{{ app.fileSize }}</p>
+    <p>系统：{{ app.operatingSystems }}</p>
+  </div>
+</div>
+{% endfor %}
+</div>
+
+</div>
+
+
+
+
+
+
+{% endblock container %}
+

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="{{ app.descs }}">
+    <meta name="author" content="{{ app.author }}">
+    {% block title %} {% endblock %}
+    <link rel="icon" type="image/png" href="https://dn-play.qbox.me/s.png">
+
+    <link rel="stylesheet" href="https://dn-play.qbox.me/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="https://dn-play.qbox.me/blueimp-gallery.min.css"  type="text/css">
+    <link rel="stylesheet" href="https://dn-play.qbox.me/bootstrap-image-gallery.min.css" type="text/css">
+    <link rel="stylesheet" href="https://dn-play.qbox.me/style.css" type="text/css">
+
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'store:index' %}">Open Store</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/store">首页</a>
+                    </li>
+                    <li><a href="/store/about">关于</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+
+                    {% if user.is_authenticated %}
+                    <li><a href="/store/accounts/profile/">{{ user.username }}</a></li>
+                    <li><a href="/store/accounts/logout">退出</a></li>
+                    {% else %}
+                    <li><a href="/store/accounts/login/">登录</a></li>
+                    <li><a href="/store/accounts/register/">注册</a></li>
+                    {% endif %}
+
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+
+
+    <div class="container">
+
+        {% block container %} {% endblock %}
+
+    </div>
+    <!-- /container -->
+
+</body>
+
+
+<footer class="footer">
+    <script src="https://dn-play.qbox.me/jquery.min.js"></script>
+    <script src="https://dn-play.qbox.me/bootstrap.min.js"></script>
+    <script src="https://dn-play.qbox.me/jquery.blueimp-gallery.min.js"></script>
+    <script src="https://dn-play.qbox.me/bootstrap-image-gallery.min.js"></script>
+</footer>
+
+</html>

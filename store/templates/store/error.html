@@ -1,0 +1,13 @@
+{% extends "store/base.html" %}
+{% load staticfiles %}
+
+{% block title %} <title>Open Store - {{ error.code }}</title> {% endblock %}
+{% block container %}
+
+<div class="jumbotron">
+  <h1>Hello, {{ error.code }}!</h1>
+  <p>{{ error.msg }}</p>
+  <p><a class="btn btn-primary btn-lg" role="button" href="/store">去首页</a></p>
+</div>
+
+{% endblock %}

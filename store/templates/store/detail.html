@@ -1,0 +1,229 @@
+{% extends "store/base.html" %}
+
+{% load staticfiles %}
+
+{% block title %} <title>Open Store - {{ app.name }}</title> {% endblock %}
+{% block container %}
+
+  <div class="img panel panel-default">
+    <div class="panel-body">
+
+<div class="row">
+  <div class="col-md-3">
+
+    <div class="detail-icon">
+        <a >
+            <img class="media-object img-responsive" src="{{ app.icon }}/w250" alt="app.icon">
+        </a>
+        </div>
+
+  </div>
+  <div class="col-md-9">
+  <div class="img panel panel-default">
+
+            <div class="page-header">
+                <h1>{{ app.name }} <small>{{ app.pkgname }}</small></h1>
+
+
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ app.get_rating.0 }}%" aria-valuemin="0" aria-valuemax="100" style="width: {{ app.get_rating.0 }}%">
+                        <span>{{ app.rating5 }}</span>
+                    </div>
+
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ app.get_rating.1 }}%" aria-valuemin="0" aria-valuemax="100" style="width: {{ app.get_rating.1 }}%">
+                        <span>{{ app.rating4 }}</span>
+
+                    </div>
+
+                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{ app.get_rating.2 }}%" aria-valuemin="0" aria-valuemax="100" style="width: {{ app.get_rating.2 }}%">
+                        <span>{{ app.rating3 }}</span>
+                    </div>
+
+                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{ app.get_rating.3 }}%" aria-valuemin="0" aria-valuemax="100" style="width: {{ app.get_rating.3 }}%">
+                        <span>{{ app.rating2 }}</span>
+
+                    </div>
+
+                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ app.get_rating.4 }}%" aria-valuemin="0" aria-valuemax="100" style="width: {{ app.get_rating.4 }}%">
+                        <span>{{ app.rating1 }}</span>
+                    </div>
+                </div>
+
+            </div>
+</div>
+
+<div class="p2 panel-body">
+    <div class="r1 row">
+      <div class="c1 col-xs-6 col-sm-3">
+        <h2>{{ app.get_rating_value }}
+                <small>分({{ app.ratingCount }}次评分)</small><br>
+                    <small>价格：{{ app.get_price }}</small>
+                </h2>
+      </div>
+      <div class="c2 col-xs-6 col-sm-2">
+        <ul class="list-group">
+                    <li class="list-group-item"><a href="https://play.google.com/store/apps/details?id={{ app.pkgname }}" target="_blank">Play 下载</a>
+                    </li>
+                    <li class="list-group-item">
+                    <a href="http://coolapk.com/apk/{{ app.pkgname }}" target="_blank">酷安下载</a></li>
+                    <li class="list-group-item"><a href="">直接下载</a></li>
+                </ul>
+      </div>
+      <div class="c3 col-xs-6 col-sm-3">
+        <ul class="list-group">
+                    <li class="list-group-item">大小：{{ app.fileSize }}</li>
+                    <li class="list-group-item">版本：{{ app.softwareVersion }}</li>
+                    <li class="list-group-item">下载量：{{ app.get_num_download }}</li>
+                </ul>
+      </div>
+      <div class="c4 col-xs-6 col-sm-4">
+        <ul class="list-group">
+                    <li class="list-group-item">系统：{{ app.operatingSystems }}</li>
+                    <li class="list-group-item">分级：{{ app.contentRating }}</li>
+                    <li class="list-group-item">开发者：{{ app.author }}</li>
+                </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="img panel panel-default">
+    <div class="panel-body">
+
+
+
+
+
+
+
+
+<!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
+<div id="blueimp-gallery" class="blueimp-gallery" data-use-bootstrap-modal="false">
+    <!-- The container for the modal slides -->
+    <div class="slides"></div>
+    <!-- Controls for the borderless lightbox -->
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+    <!-- The modal dialog, which will be used to wrap the lightbox content -->
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body next"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left prev">
+                        <i class="glyphicon glyphicon-chevron-left"></i>
+                        Previous
+                    </button>
+                    <button type="button" class="btn btn-primary next">
+                        Next
+                        <i class="glyphicon glyphicon-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <div class="row">
+
+            <div class="col-xs-6 col-md-3">
+                <a href="{{ img_list.0 }}" target="view_window" class="thumbnail" data-gallery>
+                    <img src="{{ img_list.0 }}/w250" alt="...">
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <a href="{{ img_list.1 }}" target="view_window" class="thumbnail" data-gallery>
+                    <img src="{{ img_list.1 }}/w250" alt="...">
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <a href="{{ img_list.2 }}" target="view_window" class="thumbnail" data-gallery>
+                    <img src="{{ img_list.2 }}/w250" alt="...">
+                </a>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <a href="{{ img_list.3 }}" target="view_window" class="thumbnail" data-gallery>
+                    <img src="{{ img_list.3 }}/w250" alt="...">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+
+<div class="index-left col-md-6">
+
+<div class="descs panel panel-default">
+    <div class="panel-body">
+        {{ app.descs|safe }}
+    </div>
+</div>
+
+</div>
+
+<div class="index-right col-md-6">
+
+<div class="whatsnew panel panel-default">
+    <div class="panel-body">
+        {{ app.whatsnew|safe }}
+    </div>
+</div>
+
+
+<div class="comments">
+<form class="form-inline" role="form" action="" method="post">
+{% csrf_token %}
+  <div class="form-group col-xs-9">
+    <div class="input-group col-xs-12 ">
+      <input type="text" class="form-control" placeholder="输入评论" name="comments">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-default">发表</button>
+</form>
+
+<ul class="media-list">
+
+  {% if comments %}
+  {% for c in comments %}
+  <li class="media">
+    <a class="pull-left" href="/store/accounts/profile/{{ c.username }}">
+      <img class="media-object" src="https://dn-play.qbox.me/s_64.png" alt="Tpic">
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading"><a href="/store/accounts/profile/{{ c.username }}">{{ c.username }}</a></h4>
+
+      <h5>{{ c.comments }}<small> - {{ c.date|date:"Y-n-d H:i" }}</small></h5>
+
+    </div>
+  </li>
+  {% endfor %}
+  {% endif %}
+
+</ul>
+
+</div>
+
+
+
+</div>
+</div>
+
+
+
+
+{% endblock %}
