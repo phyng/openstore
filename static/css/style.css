@@ -9,14 +9,13 @@ body {
 }
 
 .detail-icon img{
-  padding-top:20px;
-  margin:10px;
+  padding-top:10px;
 
 
 }
 
 .detail-icon {
-  padding: 30px;
+  padding: 0px;
 }
 
 .list-group-item {
@@ -38,7 +37,7 @@ body {
   margin:0px;
 }
 .c1 {
-  padding:0px;
+  padding:0 0 0 30px;
 }
 
 .c4 {
@@ -91,4 +90,16 @@ height:200px;
 .media-body p{
   margin: 0px;
 
+}
+
+.progress {
+  margin:0px;
+}
+
+.media-body {
+  padding: 5px
+}
+
+.media-heading {
+  white-space:nowrap;
 }

@@ -187,14 +187,14 @@ def proxy(request):
 def search(request):
 
     if 'q' in request.GET and request.GET['q']:
-        q = request.GET['q']
+        q = request.GET['q'] # len(q)???
         apps = App.objects.filter(name__icontains=q) # TD
 
         for app in apps:
             app.icon = proxy_img(app.icon)
-        return render_to_response('store/search.html', {'apps': apps, 'query':q})
+        return render(request, 'store/search.html', {'apps': apps, 'query':q})
     else:
-        return render_to_response('store/search.html', {'error':True})
+        return render(request, 'store/search.html', {'error':True})
 
 
 
