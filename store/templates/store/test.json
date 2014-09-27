@@ -1,0 +1,15 @@
+{
+    "page": {{ page.number }},
+    "hasNext": {{ page.has_next|lower }},
+    "itemList": [
+    {% for app in page.object_list %}
+    {"names": "{{ app.name }}",
+     "appid": "{{ app.appid }}",
+     "icon": "{{ app.icon }}/w100",
+     "rating": "{{ app.get_rating_value }}",
+     "fileSize": "{{ app.fileSize }}",
+     "operatingSystems": "{{ app.operatingSystems }}"}
+    {% if not forloop.last %},{% endif %}
+    {% endfor %}
+    ]
+}

@@ -1,71 +1,10 @@
-{% extends "store/base.html" %}
-{% block title %} <title>Open Store</title> {% endblock %}
-{% block container %}
-
-<script src="https://dn-play.qbox.me/jquery.min.js"></script>
-
-<div class="row">
-
-<div class="index-left col-md-4">
-<h3>最新应用</h3>
-{% for app in applist_new %}
-<div class="media">
-  <a class="index-icon pull-left" href="{% url 'store:detail' app.appid %}">
-    <img class=" media-object" src="{{ app.icon }}/w100" alt="...">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">{{ app.name }}</h4>
-    <p>评分：{{ app.get_rating_value }}</p>
-    <p>大小：{{ app.fileSize }}</p>
-    <p>系统：{{ app.operatingSystems }}</p>
-  </div>
-</div>
-{% endfor %}
-</div>
-
-<div class="index-right col-md-4">
-<h3>评分最高</h3>
-{% for app in applist_top %}
-<div class="media">
-  <a class="index-icon pull-left" href="{% url 'store:detail' app.appid %}">
-    <img class=" media-object" src="{{ app.icon }}/w100" alt="...">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">{{ app.name }}</h4>
-    <p>评分：{{ app.get_rating_value }}</p>
-    <p>大小：{{ app.fileSize }}</p>
-    <p>系统：{{ app.operatingSystems }}</p>
-  </div>
-</div>
-{% endfor %}
-</div>
-
-<div class="index-right col-md-4">
-<h3>下载最多</h3>
-{% for app in applist_topdownload %}
-<div class="media">
-  <a class="index-icon pull-left" href="{% url 'store:detail' app.appid %}">
-    <img class=" media-object" src="{{ app.icon }}/w100" alt="...">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">{{ app.name }}</h4>
-    <p>评分：{{ app.get_rating_value }}</p>
-    <p>大小：{{ app.fileSize }}</p>
-    <p>系统：{{ app.operatingSystems }}</p>
-  </div>
-</div>
-{% endfor %}
-</div>
-
-
-<div id="newtwitter-anchor"></div>
-
+<script type="text/javascript" src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
 
 <script>
 // Scroll globals
 var pageNum = {{ page.number }}; // The latest page loaded
 var hasNextPage = {{ page.has_next|lower }}; // Indicates whether to expect another page after this one
-var baseUrl = '/store/infinite/'; // The root for the JSON calls
+var baseUrl = '{% url 'store:infinite' %}'; // The root for the JSON calls
 
 // loadOnScroll handler
 var loadOnScroll = function() {
@@ -97,16 +36,14 @@ var loadItems = function() {
             var html = [];
             $.each(data.itemList, function(index, item){
                 /* Format the item in our HTML style */
-                html.push(
-                    '<div class="index-ajax col-md-4">',
-                    '<div class="media">',
+                html.push('<div class="media">',
                     '<a class="index-icon pull-left" href="/store/', item.appid, '">',
                     '<img class=" media-object" src="', item.icon, '" alt="app.icon"></a>',
                     '<div class="media-body">',
                     '<h4 class="media-heading">', item.names, '</h4>',
                     '<p>评分：', item.rating, '</p>',
                     '<p>大小：', item.fileSize, '</p>',
-                    '<p>系统：', item.operatingSystems, '</p></div></div></div>'
+                    '<p>系统：', item.operatingSystems, '</p></div></div>'
                     )
             });
             // Pop all our items out into the page
@@ -124,13 +61,15 @@ $(document).ready(function(){
 
 </script>
 
+<ul class="newtwitter">
+    {% for app in app_list %}
+    <li>
+        <a href="/store/{{ app.appid }}">
+        {{ app.name }}
+        </a>
+    </li>
+    {% endfor %}
+    <div id="newtwitter-anchor"></div>
+</ul>
 
-</div>
-
-
-
-
-
-
-{% endblock container %}
 

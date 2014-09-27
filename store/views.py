@@ -6,14 +6,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
 
+from django.core.paginator import Paginator, InvalidPage
+
 from django.conf import settings
 from store.models import App, Comments
 
 # for img proxy
 from zlib import crc32
-from PIL import Image
 from StringIO import StringIO
-import pathlib
 import re
 import requests
 import redis
@@ -44,6 +44,11 @@ def index(request):
     for app in applist_topdownload:
         app.icon = proxy_img(app.icon)
 
+    # page
+    app_list = App.objects.all()
+    paginator = Paginator(app_list, 20)
+    page_obj = paginator.page(2)
+
     # render
     template = loader.get_template('store/index.html')
     context = Context({
@@ -51,8 +56,49 @@ def index(request):
         'applist_top': applist_top,
         'applist_topdownload': applist_topdownload,
         'user': request.user,
+        'page': page_obj,
+        'app_list': page_obj.object_list,
 
     })
+    return HttpResponse(template.render(context))
+
+def infinite(request):
+    app_list = App.objects.all()
+
+    paginator = Paginator(app_list, 100)
+    page_obj = paginator.page(1)
+
+    # Pass out the data
+    template = loader.get_template('store/test.html')
+    context = Context({
+        "app_list": page_obj.object_list,
+        "page": page_obj,
+    })
+
+    return HttpResponse(template.render(context))
+
+
+def infinite_json(request, page):
+
+
+    app_list = App.objects.all()
+
+    # Pull the proper items for this page
+    paginator = Paginator(app_list, 20)
+    try:
+        page_obj = paginator.page(page)
+        for app in page_obj.object_list:
+            app.icon = proxy_img(app.icon)
+    except InvalidPage:
+        # Return 404 if the page doesn't exist
+        raise Http404
+
+    # Pass out the data
+    context = Context({
+        "app_list": page_obj.object_list,
+        "page": page_obj,
+    })
+    template = loader.get_template('store/test.json')
     return HttpResponse(template.render(context))
 
 
@@ -83,10 +129,7 @@ def detail(request, appid):
     # get comments
     comments = Comments.objects.filter(appid=appid)
 
-    path = settings.STATICFILES_DIRS[0] + '/img/'
-
     # app.icon
-
     app.icon = proxy_img(app.icon)
 
     # img_list
@@ -118,7 +161,6 @@ def profile_pub(request, username):
         user = User.objects.get(username=username)
     except User.DoesNotExist:
         raise Http404
-
     comments = Comments.objects.filter(username=username)
 
     return render(request, 'store/profile_pub.html', {'user': user,
@@ -163,7 +205,7 @@ def proxy(request):
         # if settings.DEBUG:
         #    session.proxies = {'https': 'socks5://127.0.0.1:1081'}
         r = session.get(url, headers=headers, timeout=10)
-        bitdata = StringIO(r.content)
+        bindata = StringIO(r.content)
 
         if not exists:
             policy = qiniu.rs.PutPolicy('playstore')
@@ -171,53 +213,53 @@ def proxy(request):
             extra = qiniu.io.PutExtra()
             extra.mime_type = "image/png"
             key = filename
-            ret, err = qiniu.io.put(uptoken, key, bitdata, extra)
+            ret, err = qiniu.io.put(uptoken, key, bindata, extra)
             if not err:
                 reds.set(filename, 0)
                 return HttpResponseRedirect(settings.QINIU_URL + filename + style)
             else:
-                return Http404  # redirect
+                return Http404
         else:
             return HttpResponseRedirect(settings.QINIU_URL + filename + style)
-        # return HttpResponse(bitdata, content_type="image/png")
-
     else:
         return Http404
+
 
 def search(request):
 
     if 'q' in request.GET and request.GET['q']:
-        q = request.GET['q'] # len(q)???
-        apps = App.objects.filter(name__icontains=q) # TD
-
+        q = request.GET['q']  # len(q)???
+        apps = App.objects.filter(name__icontains=q)  # TD
         for app in apps:
             app.icon = proxy_img(app.icon)
-        return render(request, 'store/search.html', {'apps': apps, 'query':q})
+        return render(request, 'store/search.html', {'apps': apps, 'query': q})
     else:
-        return render(request, 'store/search.html', {'error':True})
-
+        return render(request, 'store/search.html', {'error': True})
 
 
 def proxy_img(url):
 
     filename = str(hex(crc32(url) & 0xffffffff))[2:] + ".png"
-
     reds = redis.StrictRedis(host='localhost', port=6379, db=0)
     exists = reds.get(filename)
 
     if exists:
         return settings.QINIU_URL + filename
-
     else:
         return '/store/proxy?url=' + url
 
 
 def http404(request):
-    error = {'code':404,
+
+    error = {'code': 404,
              'msg': 'Page Not Found.'}
-    return render(request, 'store/404.html', {'error':error})
+    return render(request, 'store/404.html', {'error': error})
+
 
 def http500(request):
-    error = {'code':500,
+
+    error = {'code': 500,
              'msg': 'Server Error.'}
-    return render(request, 'store/500.html', {'error':error})
+    return render(request, 'store/500.html', {'error': error})
+
+

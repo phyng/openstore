@@ -103,3 +103,11 @@ height:200px;
 .media-heading {
   white-space:nowrap;
 }
+
+.list-group-item {
+  white-space:nowrap;
+}
+
+.index-ajax {
+  margin: 15px 0px 0px 0px;
+}

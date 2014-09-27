@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -9,16 +8,12 @@
     <meta name="author" content="{{ app.author }}">
     {% block title %} {% endblock %}
     <link rel="icon" type="image/png" href="https://dn-play.qbox.me/s.png">
-
     <link rel="stylesheet" href="https://dn-play.qbox.me/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="https://dn-play.qbox.me/blueimp-gallery.min.css"  type="text/css">
     <link rel="stylesheet" href="https://dn-play.qbox.me/bootstrap-image-gallery.min.css" type="text/css">
     <link rel="stylesheet" href="https://dn-play.qbox.me/style.css" type="text/css">
-
 </head>
-
 <body>
-
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
@@ -33,14 +28,10 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/store">首页</a>
-                    </li>
-                    <li><a href="/store/search">搜索</a>
-                    </li>
-                    <li><a href="/store/about">关于</a>
-                    </li>
+                    <li><a href="/store">首页</a></li>
+                    <li><a href="/store/search">搜索</a></li>
+                    <li><a href="/store/about">关于</a></li>
                 </ul>
-
                 <ul class="nav navbar-nav navbar-right">
 <form class="navbar-form navbar-left" role="search" action="/store/search/" method="get">
         <div class="form-group form-group-sm">
@@ -61,22 +52,17 @@
         </div>
     </nav>
 
-
     <div class="container">
-
         {% block container %} {% endblock %}
-
     </div>
     <!-- /container -->
 
 </body>
-
-
 <footer class="footer">
     <script src="https://dn-play.qbox.me/jquery.min.js"></script>
+
     <script src="https://dn-play.qbox.me/bootstrap.min.js"></script>
     <script src="https://dn-play.qbox.me/jquery.blueimp-gallery.min.js"></script>
     <script src="https://dn-play.qbox.me/bootstrap-image-gallery.min.js"></script>
 </footer>
-
 </html>

@@ -24,6 +24,10 @@ urlpatterns = patterns('',
     # Search
     url(r'^search/$', views.search, name='search'),
 
+    # infinite
+    url(r'^infinite/$', views.infinite, name='infinite'),
+    url(r'^infinite/json/(?P<page>[0-9]+)/$', views.infinite_json, name='infinite_json'),
+
 )
 
 handler404 = views.http404
